@@ -18,17 +18,29 @@ const AddEmployee = () => {
 
   const handleSubmit=()=>{
     const {name,email,designation,salary}=employeeDetails
+    const nameRegex = /^[A-Za-z\s]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const designationRegex = /^[A-Za-z\s]+$/
     if(!name || !email || !designation || !salary)
     {
       alert("Please fill all the fields...")
+      return
     }
-    else
-    {
-        dispatch(addEmployees(employeeDetails)).then(()=>{
-          dispatch(fetchEmployees())
-        })
-        handleClose();
+    if (!nameRegex.test(name)) {
+    alert("Name should contain only letters")
+    return
     }
+    if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address")
+    return
+    }
+    if (!designationRegex.test(designation)) {
+    alert("Designation should contain only letters")
+    return
+    }
+
+    dispatch(addEmployees(employeeDetails))
+    handleClose();
   }
 
   return (

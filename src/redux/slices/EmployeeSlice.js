@@ -13,6 +13,16 @@ export const addEmployees=createAsyncThunk("employees/addEmployees",async(newEmp
     return response.data
 })
 
+export const updateEmployees=createAsyncThunk('employees/updateEmployees',async({updatedEmployee,id})=>{
+    const response= await axios.put(`${SERVER_URL}/updateEmployee/${id}`,updatedEmployee)
+    return response.data
+})
+
+export const removeEmployees=createAsyncThunk('employees/removeEmployees',async(id)=>{
+    const response= await axios.delete(`${SERVER_URL}/deleteEmployee/${id}`)
+    return response.data
+})
+
 const EmployeeSlice=createSlice({
     name:'employees',
     initialState:{
@@ -45,6 +55,34 @@ const EmployeeSlice=createSlice({
         .addCase(addEmployees.rejected,(state)=>{
             state.loading=true
         })
+
+       //UpdateEmployees
+       .addCase(updateEmployees.pending,(state)=>{
+        state.loading=true
+       })
+       .addCase(updateEmployees.fulfilled,(state,action)=>{
+        state.loading=false
+        const index=state.employeeList.findIndex(emp=>emp._id===action.payload._id)
+        if(index!=-1)
+        {
+            state.employeeList[index]=action.payload
+        }
+       })
+       .addCase(updateEmployees.rejected,(state)=>{
+        state.loading=false
+       })
+
+    //    DeleteEMployees
+      .addCase(removeEmployees.pending,(state)=>{
+        state.loading=true
+      })
+      .addCase(removeEmployees.fulfilled,(state,action)=>{
+        state.loading=false,
+        state.employeeList=state.employeeList.filter(emp=>emp._id!==action.payload._id)
+      })
+      .addCase(removeEmployees.rejected,(state)=>{
+        state.loading=false
+      })
     }
 })
 

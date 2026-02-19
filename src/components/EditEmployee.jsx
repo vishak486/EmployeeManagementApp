@@ -1,17 +1,34 @@
 import React, { useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
+import { useDispatch } from 'react-redux';
+import { fetchEmployees, updateEmployees } from '../redux/slices/EmployeeSlice';
 
 
-const EditEmployee = () => {
+const EditEmployee = ({employees}) => {
       const [show, setShow] = useState(false);
       const [employeeDetails,setEmployeeDetails]=useState({
-        name:"",email:"",designation:"",salary:""
+        name:employees.name,email:employees.email,designation:employees.designation,salary:employees.salary
       })
-    
-   //   console.log(employeeDetails);
+      const dispatch=useDispatch()
       
-      const handleClose = () => setShow(false);
+      const handleClose = () => {
+        setEmployeeDetails({name:"",email:"",designation:"",salary:""})
+        setShow(false);
+      }
       const handleShow = () => setShow(true);
+
+      const handleSubmit=()=>{
+        const{name,email,designation,salary}=employeeDetails
+        if(!name || !email || !designation || !salary)
+        {
+            alert("Please fill the fields")
+        }
+        else
+        {
+            dispatch(updateEmployees({ updatedEmployee: employeeDetails, id: employees._id }))
+            handleClose();
+        }
+      }
     
   return (
     <>
@@ -75,7 +92,7 @@ const EditEmployee = () => {
             <Button variant="secondary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleSubmit}>
                 Save Changes
             </Button>
             </Modal.Footer>

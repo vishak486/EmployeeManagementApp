@@ -2,9 +2,8 @@ import React, { useEffect } from 'react'
 import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchEmployees } from '../redux/slices/EmployeeSlice'
+import { fetchEmployees, removeEmployees } from '../redux/slices/EmployeeSlice'
 import { Spinner } from 'react-bootstrap'
-
 
 const EmployeeList = () => {
     const{employeeList,loading}=useSelector((state)=>state.employees)
@@ -12,7 +11,7 @@ const EmployeeList = () => {
 
     useEffect(()=>{
         dispatch(fetchEmployees())
-    },[])
+    },[dispatch])
 
    // console.log(employeeList);
     
@@ -69,7 +68,7 @@ const EmployeeList = () => {
                             <td>₹{employees.salary}</td>
                             <td>
                                 <EditEmployee employees={employees}/>
-                                <button className="btn btn-sm btn-danger">Delete</button>
+                                <button onClick={()=>dispatch(removeEmployees(employees._id))} className="btn btn-sm btn-danger">Delete</button>
                             </td>
                         </tr>
                         ))
