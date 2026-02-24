@@ -3,8 +3,8 @@ import axios from "axios";
 
 const SERVER_URL="http://localhost:3000"
 
-export const fetchEmployees=createAsyncThunk("employees/fetchEmployees",async()=>{
-    const response=await axios.get(`${SERVER_URL}/getEmployee`)
+export const fetchEmployees=createAsyncThunk("employees/fetchEmployees",async(search='')=>{
+    const response=await axios.get(`${SERVER_URL}/getEmployee?search=${search}`)
     return response.data
 })
 

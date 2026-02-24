@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,11 +7,14 @@ import { Spinner } from 'react-bootstrap'
 
 const EmployeeList = () => {
     const{employeeList,loading}=useSelector((state)=>state.employees)
+    const[search,setSearch]=useState("")
     const dispatch=useDispatch()
 
     useEffect(()=>{
-        dispatch(fetchEmployees())
-    },[dispatch])
+        dispatch(fetchEmployees(search))
+    },[search])
+   // console.log(search);
+    
 
    // console.log(employeeList);
     
@@ -32,6 +35,8 @@ const EmployeeList = () => {
                 type="text"
                 className="form-control shadow-sm"
                 placeholder="Search employee..."
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
             />
             </div>
         </div>
