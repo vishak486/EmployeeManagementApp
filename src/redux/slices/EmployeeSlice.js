@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL="http://localhost:3000"
+const SERVER_URL="https://employeemanagementserver-ok4f.onrender.com"
 
 export const fetchEmployees=createAsyncThunk("employees/fetchEmployees",async(search='')=>{
     const response=await axios.get(`${SERVER_URL}/getEmployee?search=${search}`)
